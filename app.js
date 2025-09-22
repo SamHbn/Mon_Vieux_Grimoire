@@ -1,4 +1,17 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const path = require('path');
+
+const bookRoutes = require('./routes/book');
+const userRoutes = require('./routes/user');
+
+mongoose
+  .connect(
+    'mongodb+srv://samuelherbin26_db_user:IxcnAsbMJgU38VEJ@cluster0.fa8wr6b.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
 
@@ -17,31 +30,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/api/books', (re, res, next) => {
-  console.log(req.body);
-  res.status(201).json({ message: 'Objet créé !' });
-});
-
-app.get('/api/books', (req, res, next) => {
-  const books = [
-    {
-      userId: "identifiant MongoDB unique de l'utilisateur qui a créé le livre",
-      title: 'Titre du livre',
-      author: 'Auteur du livre',
-      imageUrl: 'https://www.babelio.com/users/blobid1703257456751.jpg',
-      year: 1978,
-      genre: 'Genre du livre',
-      ratings: [
-        {
-          userId:
-            "identifiant MongoDB unique de l'utilisateur qui a créé le livre",
-          grade: 'note donnée à un livre',
-        },
-      ],
-      averageRating: 'note moyenne du livre',
-    },
-  ];
-  res.status(200).json(books);
-});
+app.use('/api/books', bookRoutes);
+app.use('/api/auth', userRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;
