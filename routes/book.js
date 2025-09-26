@@ -3,7 +3,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 const multer = require('../middleware/multer-config');
 
-const bookCtrl = require('../controllers/books');
+const bookCtrl = require('../controllers/book');
 
 router.get('/bestrating', bookCtrl.getBestRating);
 router.post('/:id/rating', auth, bookCtrl.createRating);
