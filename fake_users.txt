@@ -26,4 +26,4 @@ test5@test.com / password : mdp
 
 User 6 :
 test6@test.com / password : mdp
-(Notes)
+- Les Misérables
